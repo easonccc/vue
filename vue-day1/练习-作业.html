@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Document</title>
+		<style>
+			.input-num {
+				width: 180px;
+				height: 40px;
+				border: 1px solid gray;
+				display: flex;
+				border-radius: 5px;
+				overflow: hidden;
+			}
+
+			.input-num button {
+				width: 50px;
+				height: 100%;
+				font-size: 25px;
+				color: gray;
+				cursor: pointer;
+			}
+
+			.input-num span {
+				height: 100%;
+				border: 1px solid gray;
+				flex: 1;
+				text-align: center;
+				line-height: 40px;
+			}
+
+			.input-num button.dis {
+				cursor: not-allowed;
+				color: #FF0000;
+			}
+
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<!-- 计数器 -->
+			<div class="input-num">
+				<button @click="num--"  :class="num <= min ? 'dis': ''"  :disabled=" num== min? true : false ">
+					-
+				</button>
+				<span >{{ num }}</span>
+				<button @click="num++"  :class="num >= max ? 'dis' : ''" :disabled="num==max">
+					+
+				</button>
+			</div>
+		</div>
+	</body>
+</html>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="js/vue.js"></script>
+<!-- 编码 -->
+<script>
+	const vm = new Vue({
+		el: '#app',
+		data: {
+			num : 1,
+			min : 0,
+			max : 10
+
+		},
+		/* methods: {
+			sub() {
+				if (this.num > 0) {
+					this.isActive = false
+					this.isActive1 = false
+				}
+				if (this.num == 0) {
+					this.isActive = true
+					return false
+				}
+				this.num--;
+			},
+			add() {
+				if (this.num < 10) {
+					this.isActive1 = false
+					this.isActive = false
+				}
+				if (this.num == 10) {
+					this.isActive1 = true
+					return false
+				}
+				this.num++;
+			}
+		} */
+	})
+</script>

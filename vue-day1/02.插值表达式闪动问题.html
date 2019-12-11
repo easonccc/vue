@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      [v-cloak] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      {{msg}}
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+      //当网速不好的时候 页面上来会之间显示原始数据
+      /* 
+            v-cloak指令的用法
+            1.提供样式
+                [v-cloak]{
+                    display:none
+                }
+            2.在插值表达式所在的标签中添加v-cloak指令
+         */
+    //实现的效果：当网速不好的时候 会显示空白 等加载完之后显示想要的数据
+    //原理： 先通过样式隐藏内容，然后在内存中进行值的替换，替换好之后再显示最终的结果
+      let vu = new Vue({
+        el: "#app",
+        data: {
+          msg: "嘻嘻"
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{msg}}</div>
+        <input type="text" v-bind:value="msg" v-on:input="handle">
+        <!-- 简化版 -->
+        <input type="text" v-bind:value="msg" @input="msg=$event.target.value">
+        <!-- 最终版 -->
+        <input type="text" v-model="msg">
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const vu = new Vue({
+            el: '#app',
+            data:{
+                msg: '加油'
+            },
+            methods: {
+                handle(e){
+                    //通过e.target获取到当前input标签(DOM对象)
+                    //将输入的值赋值给value
+                    this.msg = e.target.value
+                }
+            }
+        })
+    </script>
+</body>
+</html>

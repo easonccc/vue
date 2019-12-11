@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app"> 
+        <div>{{msg}}</div>
+        <!-- v-text不会存在闪烁问题 推荐使用 -->
+        <div v-text="msg1"></div>
+        <!-- v-html解析HTML标签 -->
+        <!-- 在网站上动态渲染任意HTML很危险 容易导致xss攻击
+             只可在可信内容上使用v-html，不能用在用户提交的内容上
+             原则上：使用本网的内部数据
+        -->
+        <div v-html="html"></div>
+        <div v-pre>{{msg}}</div>
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        let vu = new Vue({
+            el: '#app',
+            data :{
+                msg: '加油',
+                msg1: '加油1',
+                html:'<h2>加油</h2>',
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<div id="app">
+			{{msg}}
+			{{3+3}}
+		</div>
+		<!-- 必须选择到元素才可以使用 -->
+		<div>{{3+3}}</div> 
+		<div id="app1">{{msg+'--'+msg}}</div>
+		<script src="./js/vue.js"></script>
+
+		<script type="text/javascript">
+			/* 
+				Vue的基本使用步骤
+				1.需要提供标签用于填充数据  相当于一个容器
+				2.引入vue.js库文件
+				3.可以使用vue的语法做功能了
+				4.把vue提供的数据填充到标签里面
+			 */
+			let vm = new Vue({
+				el:'#app',
+				data:{
+				msg:'holle'
+				}
+			})
+
+			let vm2 = new Vue({
+				el:'#app1',
+				data:{
+					msg:'wewewe'
+				}
+			})
+			
+		</script>
+	</body>
+</html>

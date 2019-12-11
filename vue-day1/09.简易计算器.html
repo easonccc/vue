@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text"  v-model="num1">
+        <select id=""  v-model="sel">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
+        <input type="text"  v-model="num2">
+        <button @click="handle">=</button>
+        <input type="text" v-model="res">
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        const vu = new Vue({
+            el:'#app'  ,
+            data: {
+                num1: 10,
+                num2:10,
+                sel: '+',
+                res:''
+            },
+            methods: {
+                handle(){
+                    //判断选择了哪个运算符号
+                 /*    switch(this.sel){
+                        case '+': this.res = this.num1 + this.num2 
+                        break
+                        case '-': this.res = this.num1 - this.num2 
+                        break
+                        case '*': this.res = this.num1 * this.num2 
+                        break
+                        case '/': this.res = this.num1 / this.num2 
+                        break
+                    } */
+
+                    //另一种简单方法eval(str) 不推荐使用
+                    //可以将字符串解析 实现计算功能
+                    let str = "parseInt(this.num1)"+ this.sel + "parseInt(this.num2)"
+                    console.log(typeof str); //string
+                    this.res = eval(str)
+                    
+                }
+            }
+        })
+    </script>
+</body>
+</html>

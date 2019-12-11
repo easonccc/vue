@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 事件修饰符 -->
+    <div id="app">
+        <!-- 阻止默认行为 -->
+        <a href="https://www.baidu.com" @click.prevent>百度</a>
+        <!-- 阻止冒泡行为 -->
+        <div @click="father">
+            <span @click.stop="handle">子盒子</span>
+        </div>
+    </div>
+
+
+    <!-- 键盘修饰符 -->
+    <div id="app2">
+        <!-- 当按下回车键触发handleSubmit函数 -->
+        <!-- 1.可以直接用keyup点.按键对应event.keyCode值进行操作 -->
+        
+        <input type="text" @keyup.enter="handleSubmit" v-model="msg">
+
+        <!-- 2.可以自定义按键的名字 Vue.config.keyCodes.f1 = 112 -->
+        <input type="text" @keyup.aaa="handleSubmit" v-model="msg">
+
+        <input type="button" value="提交" @click="handleSubmit">
+
+    </div>
+    <script src="./js/vue.js"></script>
+    <script>
+        Vue.config.keyCodes.aaa = 65
+        const vu = new Vue({
+            el: '#app',
+            data:{
+                
+            },
+            methods: {
+                father(){
+                    alert('haha')
+                },
+                handle(){
+                    alert('子盒子弹出的')
+                }
+            }
+        })
+
+        const vu2 = new Vue({
+            el:'#app2' ,
+            data:{msg:''},
+            methods: {
+                handleSubmit(){
+                    //按回车的时候触发提交事件
+                    console.log(this.msg);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
