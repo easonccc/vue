@@ -41,7 +41,7 @@
               <label for="id">
                 编号：
               </label>
-              <input type="text" id="id" v-model="id" :disabled="flag"/>
+              <input type="text" id="id" v-model="id" :disabled="flag" />
               <label for="name">
                 名称：
               </label>
@@ -60,14 +60,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(v,k,i) in books" :key="v.id">
-              <td>{{v.id}}</td>
-              <td>{{v.name}}</td>
-              <td>{{v.date | dateFormat}}</td>
+            <tr v-for="(item,index) in books" :key="item.id">
+              <td>{{index+1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.date | dateFormat}}</td>
               <td>
-                <a href="javascript:;" @click.prevent="edit(v.id)">修改</a>
+                <a href="" @click.prevent="update(item.id)">修改</a>
                 <span>|</span>
-                <a href="javascript:;" @click="del(v.id)">删除</a>
+                <a href="javascript:;" @click="delBook(item.id)">删除</a>
               </td>
             </tr>
           </tbody>
@@ -85,7 +85,10 @@
         var h = (val.getHours() + "").padStart(2, 0);
         var f = (val.getMinutes() + "").padStart(2, 0);
         var s = (val.getSeconds() + "").padStart(2, 0);
-        return `${year}-${m}-${t} ${h}:${f}:${s}`;
+
+        var str = `${year}-${m}-${t} ${h}:${f}:${s}`;
+
+        return str;
       });
 
       /*
@@ -94,9 +97,10 @@
       var vm = new Vue({
         el: "#app",
         data: {
-          flag: false,
+          // 用来对上面的两个输入框 进行双向数据绑定
           id: "",
           name: "",
+          flag: false, // 默认是可以编辑的
           books: [
             {
               id: 1,
@@ -104,7 +108,7 @@
               date: new Date()
             },
             {
-              id: 2,
+              id: 10,
               name: "水浒传",
               date: new Date()
             },
@@ -122,44 +126,69 @@
         },
         methods: {
           add() {
+            // 需要判官用户是否填写了 id与name  如果没有填写就提示用户
             if (this.id == "" || this.name == "") {
-              alert("请输入内容");
-              return false
-            } 
-            //如果flag是true 表示是编辑功能提交
-            if(this.flag){
-              //遍历数组 找到有没有那个唯一id 如果能找到就说明是修改 
-              let newarr = this.books.some(item=>{
-                //遍历每一项 找到那项id就返回true
+              alert("请输入相应的数据");
+              return;
+            }
+
+            //             只要flag的值 是false 就表示是添加图书功能
+            // 只要flag的值 是true  就表示是编辑图书功能
+
+            // 在add这个按钮里面进行判断
+            // flag的值
+
+            if (this.flag) {
+              // 编辑图书
+              // 根据id将对应的数据进行修改  说白了 就是将 对应的数组元素的值进行修改 
+              // console.log(this.id);
+              // 肯定需要遍历数组  通过哪个方法来遍历呢？  some
+              this.books.some(item=>{
+                // 判断this.id是否等于 item.id 
                 if(item.id == this.id){
+                  // 需要去修改当前的这个数组元素的name属性值 
+                  // console.log(item.name);
                   item.name = this.name
-                  return true
+
+                  return true;
                 }
               })
-            this.flag= false
-            }else{
-              //如果flag是false 表示是新增提交
-            let obj = {
-              id:  this.id,
-              name: this.name,
-              date: new Date()
-            };
-               this.books.push(obj);
+
+              // 将flag的值 重置为 false 
+              this.flag = false;
+
+
+            } else {
+              // 添加图书
+              var data = {
+                id: this.id,
+                name: this.name,
+                date: new Date()
+              };
+              // console.log(data);
+              this.books.push(data);
             }
+
             this.id = this.name = "";
-           
           },
-          //删除
-          del(i) {
-            let index = this.books.findIndex(item => item.id == i);
-            return this.books.splice(index, 1);
+
+          delBook(key) {
+            // 通过传递过来的key 将数组里面的元素删除   ajax最后一天 todolist
+            // console.log(key);  findIndex 找数组的索引
+            var index = this.books.findIndex(item => item.id === key);
+            // splice()
+
+            this.books.splice(index, 1);
           },
-          //编辑
-          edit(i){
-          this.flag=true
-          let newarr = this.books.filter(item=>item.id==i)
-          this.id = newarr[0].id
-          this.name = newarr[0].name
+          // 修改 只是拿到数据并且填充到对应的输入框里面
+          update(key) {
+            // 通过传递过来的id从数组中将对应的元素找到 将它们赋值给 data里面定义的属性
+            var newArr = this.books.filter(item => item.id === key);
+            // console.log(newArr[0].name);
+            this.name = newArr[0].name;
+            this.id = newArr[0].id;
+            // 将this.flag的值 设置为 true
+            this.flag = true;
           }
         }
       });

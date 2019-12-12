@@ -92,3 +92,32 @@
 - beforeCreate
  在实例初始化之后，数据观测和事件配置之前被调用 此时data 和 methods 以及页面的
  DOM结构都没有初始化 什么都做不了
+
+ #### 数组更新检测
+1. 变异方法
+	vue包含一组观察数组的变异方法，所以它们也将会触发视图更新
+- push()
+- pop()
+- shift()
+- unshift()
+- splice()
+- sort()
+- resverse()
+   简单来说就是使用以上方法对数据进行操作 (浏览器)视图会直接发生相应的变化
+2. 替换数组 
+	不会改变原始数组 返回一个新数组
+- filter()
+- concat()
+- slice()
+
+#### 动态数组响应式数据
+- Vue.set(a,b,c) 让 触发视图重新更新一遍 数据动态起来
+- a是要更改的数据，b是数据的第几项，c是更改后的数据
+修改响应式数据
+	` Vue.set(vm.items,indexOfltem,newValue) `
+	` vm.$set(vm.items,indexOfltem,newValue)`
+		1. 参数一  要处理的数组名称
+		2. 参数二  要处理的数组的索引
+		3. 参数三  要处理的数组的值
+
+
