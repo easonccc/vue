@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #app {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+        }
+    </style>
+    <script>
+
+        // DOM 树  css   js 它一定要等浏览器引擎将DOM树里面的内容渲染到浏览器上面才可以的 
+    
+        // var divObj = document.querySelector('#app');
+        // console.log(divObj);
+
+        var obj = {
+            showInfo:function(){
+                console.log("ok")
+            }
+        }
+
+        obj.showInfo();
+    
+    </script>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>

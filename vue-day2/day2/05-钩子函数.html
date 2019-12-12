@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 想要在这个输入框输入 v-focus 就可以让这个输入框 自动获取焦点 -->
+      <input type="text" v-focus="yw"  />
+    </div>
+    <script src="js/vue.js"></script>
+
+    <script>
+      // 注册一个全局自定义指令 `v-focus`
+        Vue.directive("focus", {
+          // 当被绑定的元素插入到 DOM 中时……
+          // 钩子函数 它本身就是一个函数  它不是我们调用的 它是vue给我们调用 只不会它们调用的时机不一样 
+          // 需要思考：为什么  bind 就不可以给元素添加添加 
+          // 可以理解为 bind需要等页面全部渲染结束之后使用 因为在这里获取不到input标签
+          inserted: function(el,binding) {
+            // 聚焦元素
+            // el.focus();
+            // console.log(binding.value)
+            el.style.backgroundColor = binding.value
+            // el.focus();
+          }
+        });
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+            yw:'yellow'
+        }
+      });
+
+   
+    </script>
+  </body>
+</html>

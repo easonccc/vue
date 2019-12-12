@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{time | dateFormat('Y-M-D H:I:S')}}</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 定义全局过滤器
+
+        Vue.filter('dateFormat',function(val,ff){
+          
+            // var myDate = new Date(val);
+            var year = val.getFullYear();
+            // console.log(year)
+            var m = (val.getMonth() + 1 + '').padStart(2,0);
+            var t = (val.getDate()+ '').padStart(2,0);
+            var h = (val.getHours()+ '').padStart(2,0);
+            var f = (val.getMinutes()+ '').padStart(2,0);
+            var s = (val.getSeconds()+ '').padStart(2,0);
+            var str = '';
+            if(ff == 'Y-M-D'){
+                str = `${year}-${m}-${t}`;
+            }else if(ff == 'Y-M-D H:I:S'){
+                str = `${year}-${m}-${t} ${h}:${f}:${s}`;
+            }
+            console.log(str);
+            return str;
+        })
+
+
+        const vm = new Vue({
+            el:'#app',
+            data: {
+                time:new Date()
+            }
+        })
+    
+    </script>
+</body>
+</html>

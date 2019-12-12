@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+      .grid {
+        margin: auto;
+        width: 530px;
+        text-align: center;
+      }
+      .grid table {
+        border-top: 1px solid #c2d89a;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .grid th,
+      td {
+        padding: 10;
+        border: 1px dashed #f3dcab;
+        height: 35px;
+        line-height: 35px;
+      }
+      .grid th {
+        background-color: #f3dcab;
+      }
+      .grid .book {
+        padding-bottom: 10px;
+        padding-top: 5px;
+        background-color: #f3dcab;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="grid">
+        <div>
+          <h1>图书管理</h1>
+          <div class="book">
+            <div>
+              <label for="id">
+                编号：
+              </label>
+              <input type="text" id="id" v-model="id" />
+              <label for="name">
+                名称：
+              </label>
+              <input type="text" id="name" v-model="name" />
+              <button @click="add">提交</button>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>名称</th>
+              <th>时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(v,k,i) in books">
+              <td>{{v.id}}</td>
+              <td>{{v.name}}</td>
+              <td>{{v.date | dateFormat}}</td>
+              <td>
+                <a href="javascript:;">修改</a>
+                <span>|</span>
+                <a href="javascript:;" @click="del(v.id)">删除</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript">
+      Vue.filter("dateFormat", function(val) {
+        // var myDate = new Date(val);
+        var year = val.getFullYear();
+        // console.log(year)
+        var m = (val.getMonth() + 1 + "").padStart(2, 0);
+        var t = (val.getDate() + "").padStart(2, 0);
+        var h = (val.getHours() + "").padStart(2, 0);
+        var f = (val.getMinutes() + "").padStart(2, 0);
+        var s = (val.getSeconds() + "").padStart(2, 0);
+        return `${year}-${m}-${t} ${h}:${f}:${s}`;
+      });
+
+      /*
+      图书管理-添加图书
+    */
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          id: "",
+          name: "",
+          books: [
+            {
+              id: 1,
+              name: "三国演义",
+              date: new Date()
+            },
+            {
+              id: 2,
+              name: "水浒传",
+              date: new Date()
+            },
+            {
+              id: 3,
+              name: "红楼梦",
+              date: new Date()
+            },
+            {
+              id: 4,
+              name: "西游记",
+              date: new Date()
+            }
+          ]
+        },
+        methods: {
+          add() {
+            let obj = {
+              id: "",
+              name: "",
+              date: new Date()
+            };
+            if (this.id == "" || this.name == "") {
+              alert("请输入内容");
+            } else {
+              obj.id = this.id;
+              obj.name = this.name;
+              this.id = this.name = "";
+              return this.books.push(obj);
+            }
+          },
+          del(i) {
+            let index = this.books.findIndex(item => item.id == i);
+            return this.books.splice(index, 1);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

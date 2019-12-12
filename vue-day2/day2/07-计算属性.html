@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- 先将这个字符串分割为数组调用reverse()将数组里面的元素进行翻转将数组合并为字符串 -->
+        <div>{{fzdq()}}</div>
+        <div>{{cfzdq}}</div>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        
+        const vm = new Vue({
+            el:'#app',
+            data: {
+                msg:'javascript'
+            },
+            methods: {
+                fzdq(){
+                    return this.msg.split('').reverse().join('')
+                }
+            },
+            computed: {
+                cfzdq(){
+                    return this.msg.split('').reverse().join('')
+                }
+            },
+        })
+    
+    </script>
+</body>
+</html>

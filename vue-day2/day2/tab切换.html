@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+      .tab ul {
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+      }
+
+      .tab ul li {
+        box-sizing: border-box;
+        padding: 0;
+        float: left;
+        width: 100px;
+        height: 45px;
+        line-height: 45px;
+        list-style: none;
+        text-align: center;
+        border-top: 1px solid blue;
+        border-right: 1px solid blue;
+        cursor: pointer;
+      }
+
+      .tab ul li:first-child {
+        border-left: 1px solid blue;
+      }
+
+      .tab ul li.active {
+        background-color: orange;
+      }
+
+      .tab div {
+        width: 500px;
+        height: 300px;
+        display: none;
+        text-align: center;
+        font-size: 30px;
+        line-height: 300px;
+        border: 1px solid blue;
+        border-top: 0px;
+      }
+
+      .tab div.current {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="tab">
+        <ul>
+          <!-- 判断currentIndex的值是不是跟index相等 如果相等就给添加class属性 值为active -->
+          <li
+            v-for="(item,index) in list"
+            :key="item.id"
+            :class="currentIndex == index ? 'active' : '' "
+            @click="change(index)"
+          >
+            {{item.title}}
+          </li>
+        </ul>
+        <!-- 对div进行处理 -->
+        <div
+          v-for="(item,index) in list"
+          :key="item.id"
+          :class="currentIndex == index ? 'current' : '' "
+        >
+          <img :src="item.path" />
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+      // 如何让第一个li高亮 同时让第一个div显示出来
+
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          currentIndex: 0, // 定义一个属性 值为0
+          list: [
+            {
+              id: 1,
+              title: "apple",
+              path: "img/apple.png"
+            },
+            {
+              id: 2,
+              title: "orange",
+              path: "img/orange.png"
+            },
+            {
+              id: 3,
+              title: "lemon",
+              path: "img/lemon.png"
+            }
+          ]
+        },
+        methods: {
+          change(key) {
+            // console.log(key)
+            // 将key赋值给 data里面的数据 currentIndex
+            this.currentIndex = key;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

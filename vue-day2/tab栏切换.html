@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+        ul {
+            height: 30px;
+        }
+        ul li {
+            list-style: none;
+            float: left;
+            height: 20px;
+            width: 80px;
+            margin-left: 20px;
+           
+        }
+        .active {
+            background-color: orange;
+        }
+        .div div {
+            height: 300px;
+            width: 300px;
+            display: none;
+            border: 1px solid #000;
+            margin-left: 40px;
+        }
+        #app .current {
+            display: block;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <ul>
+          <li v-for="(item, index) in lis" :key="item.id" :class="currentIndex==index? 'active': ''" @click="change(index)">{{item.name}}</li>
+        </ul>
+      </div>
+      <div class="div">
+        <div v-for="(item, index) in lis" :key="item.id" :class="currentIndex==index? 'current': ''" :style="currentIndex === index ? 'background-color:'+item.bgc : ''">{{item.bgc}}</div>
+        <!-- item.bgc是一个变量名所以写在引号外面和前面的属性进行拼接 -->
+      </div>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        const vu = new Vue({
+            el:'#app',
+            data:{ 
+                currentIndex: 0,
+                lis:[
+                {id : 1,name:'skyblue',bgc:'skyblue'},
+                {id : 2,name:'pink',bgc:'pink'},
+                {id : 3,name:'green',bgc:'green'},
+                ],
+                
+            },methods: {
+                change(k){
+                    this.currentIndex = k
+                }
+            },
+        })         
+        
+    </script>
+  </body>
+</html>

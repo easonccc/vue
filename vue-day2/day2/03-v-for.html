@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(v,i) in list" :key="v.id">{{v.id}} --- {{v.name}}---{{i}}</li>
+        </ul>
+    </div>
+
+    <script src="js/vue.js"></script>
+
+    <script>
+        
+        const vm = new Vue({
+            el:'#app',
+            data: {
+                list:[
+                    {id:1,name:'张三'},
+                    {id:2,name:'李四'},
+                    {id:3,name:'王五'},
+                    {id:4,name:'赵六'},
+                    {id:5,name:'田七'}
+                ]
+            }
+        })
+    
+    
+    </script>
+
+</body>
+</html>
