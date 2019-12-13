@@ -41,7 +41,7 @@
               <label for="id">
                 编号：
               </label>
-              <input type="text" id="id" v-model="id" :disabled="flag"/>
+              <input type="text" id="id" v-model="id" :disabled="flag" v-focus/>
               <label for="name">
                 名称：
               </label>
@@ -160,8 +160,24 @@
           let newarr = this.books.filter(item=>item.id==i)
           this.id = newarr[0].id
           this.name = newarr[0].name
-          }
-        }
+          },
+        },
+        //自定义指令 当全局指令和局部指令同名时以局部指令为准
+          directives : {
+            focus : {
+              inserted: function(el){
+                console.log(el);
+                //el表示加v-foucs 的那一项表单
+                el.focus()
+              }
+            }
+          },
+          //计算属性computed
+          computed: {
+            count: function(){
+              
+            }
+          },
       });
     </script>
   </body>

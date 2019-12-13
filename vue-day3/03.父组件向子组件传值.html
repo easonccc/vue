@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{pp}}</div>
+        <aaa :myname="pp" title="标题"></aaa>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //定义一个全局组件
+        //在这里是子组件
+        Vue.component('aaa',{
+            props:["myname","title"],
+            data() {
+                return {
+                    msg : 'hhh'
+                }
+            },
+            //通过父组件里面的属性访问
+            template: ` 
+                <div>{{msg+"------"+ myname+'-----'+ title}}</div>
+            `,
+        })
+       let vu = new Vue({
+           el:'#app',
+           data:{
+               pp:"你好"
+           },
+       })
+    </script>
+</body>
+</html> 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <coma></coma>
+      <comb></comb>
+      <abcd></abcd>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+
+
+      Vue.component("abcd", {
+        data() {
+          return {
+            msg: "hello"
+          };
+        },
+        template: `
+               <div>
+                    <div>{{msg}}</div>
+                    <button @click="btn">确定</button>
+               </div>
+            `,
+        methods: {
+          btn() {
+            this.msg = "javasript";
+          }
+        }
+      });
+
+      var coma = {
+        data() {
+          return {
+            msg: "第一个局部组件"
+          };
+        },
+        template: `
+                <button>{{msg}}</button>
+            `
+      };
+
+      var comb = {
+        data() {
+          return {
+            msg: "第二个局部组件"
+          };
+        },
+        template: `
+                <button>{{msg}}</button>
+            `
+      };
+
+      const vm = new Vue({
+        el: "#app",
+        components: {
+          coma,
+          comb
+        }
+      });
+    </script>
+  </body>
+</html>

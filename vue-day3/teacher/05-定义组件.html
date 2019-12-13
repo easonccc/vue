@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 100px;
+            padding:30px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 把组件当作为标签来使用 -->
+        <my-com></my-com>
+        <my-com></my-com>
+        <my-com></my-com>
+        <hr>
+        <com></com>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 全局组件  
+        Vue.component('my-com',{
+            // 组件里面所需要的数据  在定义的组件注意中 data必须是一个函数  需要返回一个对象
+            data(){
+                return {
+                    msg:'hello',
+                    count:0
+                }
+            },
+            template:`
+                <div class="box">
+                    <input type="text" v-model="msg">
+                    <div>{{count}}</div>
+                    <button @click="add">增加</button> 
+                </div>
+            `,
+            methods: {
+                add() {
+                    this.count++;
+                }
+            },
+        })
+
+
+        var com = {
+            template:`
+                <div>我是局部组件</div>
+            `
+        }
+
+        // 实例化一个vm实例 
+        const vm = new Vue({
+            el:'#app',
+            components: {
+                com
+            }
+        });
+    
+    </script>
+</body>
+</html>

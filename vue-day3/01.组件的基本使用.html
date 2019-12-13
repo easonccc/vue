@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <button-count> </button-count>
+        <button-count> </button-count>
+        <button-count> </button-count>
+        <button-count> </button-count>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //定义全局组件
+        //组建的使用  把组件名当做为双边标签来使用 在这里button-count就是一个双标签
+        Vue.component('button-count',{
+            //data里面是保存的数据 要求它必须是一个函数
+            data() {
+                return {
+                    count:0
+                }
+            },
+            //组件的模板 这里访问data里面的变量不用加this
+            // template:` <button @click="count++">{{count}}</button> `,
+            template: `<button @click="handle">{{count}}</button>` ,
+            methods: {
+                //在这个methods里面访问data里的数据要加this
+                handle(){
+                    this.count++
+                }
+            },
+        })
+        let vu = new Vue({
+            el:'#app',
+            data:{
+            }
+        })
+    </script>
+</body>
+</html>

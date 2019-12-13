@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <abcd></abcd>
+      <abcd></abcd>
+      <abcd></abcd>
+      <abcd></abcd>
+      <abcd></abcd>
+      <abcd></abcd>
+    </div>
+    <script src="js/vue.js"></script>
+
+    <script>
+      // 组件是vue与react里面非常重要的一个知识点
+      // 组件需要数据 数据是放在 data(){  }
+      /*
+        Vue.component(组件名,{
+            data:function(){
+                return {
+                    // 数据  
+                    name:'张三'
+                }
+            },
+            template: `
+                <button>确定</button>
+            `
+        })    */
+
+      Vue.component("abcd", {
+        data() {
+          return {
+            msg: "hello"
+          };
+        },
+        template: `
+               <div>
+                    <div>{{msg}}</div>
+                    <button @click="btn">确定</button>
+               </div>
+            `,
+        methods: {
+            btn(){
+                this.msg = 'javasript'
+            }
+        }
+      });
+
+      const vm = new Vue({
+        el: "#app"
+      });
+    </script>
+  </body>
+</html>

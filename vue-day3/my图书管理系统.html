@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    .grid {
+      margin: auto;
+      width: 530px;
+      text-align: center;
+    }
+    .grid table {
+      border-top: 1px solid #C2D89A;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .grid th,td {
+      padding: 10;
+      border: 1px dashed #F3DCAB;
+      height: 35px;
+      line-height: 35px;
+    }
+    .grid th {
+      background-color: #F3DCAB;
+    }
+    .grid .book {
+      padding-bottom: 10px;
+      padding-top: 5px;
+      background-color: #F3DCAB;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="grid">
+      <div>
+        <h1>图书管理</h1>
+        <div class="book">
+          <div>
+            <label for="id">
+              编号：
+            </label>
+            <input type="text" id="id" v-model="id" :disabled="flag" >
+            <label for="name">
+              名称：
+            </label>
+            <input type="text" id="name" v-model="name" >
+            <button @click="add">提交</button>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 循环将数据渲染至页面 -->
+          <tr v-for="(item, index) in books" :key="item.id" >
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.date |formatDate }}</td>
+            <td>
+              <a href="javascript:;" @click="edit(item.id)">修改</a>
+              <span>|</span>
+              <a href="javascript:;" @click="del(item.id)">删除</a>
+              <!-- 这里必须要传递参数 才能获取到当前点击项 -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 计算数量 -->
+    <div >{{count}}</div>
+  </div>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+  //这个过滤器必须写在vue实例的前面否则访问不到
+  //定义全局过滤器处理时间格式
+  Vue.filter('formatDate',function(val){
+        //val是要处理的日期
+        let year = val.getFullYear()
+        //转换为字符串再进行二位数补零操作
+        let m = (val.getMonth()+1).toString().padStart(2,0)
+        let day = (val.getDate()).toString().padStart(2,0)
+        let hour = (val.getHours()).toString().padStart(2,0)
+        let min = (val.getMinutes()).toString().padStart(2,0)
+        let s = (val.getSeconds()).toString().padStart(2,0)
+        return  year+"-"+ m + "-"+day+" "+hour+":"+min+":"+s
+      })
+
+    /*
+      图书管理-添加图书
+    */
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        id: '',
+        name: '',
+        flag: false,
+        books: [{
+          id: 1,
+          name: '三国演义',
+          date: new Date()
+        },{
+          id: 2,
+          name: '水浒传',
+          date: new Date()
+        },{
+          id: 3,
+          name: '红楼梦',
+          date: new Date()
+        },{
+          id: 4,
+          name: '西游记',
+          date: new Date()
+        }]
+      },
+      methods: {
+        //添加数据操作
+        add(){
+          //先判断 如果表单有一项值为空就提示
+          if(this.id=="" && this.name==""){
+            alert('请输入内容')
+            return false
+          }
+
+          //判断是修改后的提交操作 还是单纯的添加操作 id值不允许修改 将它设为禁用状态
+          if(this.flag){
+            //1.找到数组里面id相同的那一项的索引
+           let index = this.books.findIndex(item=>item.id==this.id)
+           console.log(index);
+           //2.将新数据赋值给对应索引里面的name值
+            this.books[index].name = this.name
+            //提交后再将表单恢复为可输入状态
+            this.flag = false
+          }else{
+            //添加操作 当id输入框为开启状态
+          //定义一个对象 将用户输入的值加入这个对象 然后将对象添加到数组中
+          let obj = {
+            id: this.id,
+            name: this.name,
+            date:new Date()
+          }
+          this.books.push(obj)
+          }
+          //提交完成后 让表单的内容清空
+          this.id = this.name = ""
+        },
+
+        //删除操作
+        del(k){
+          //先获取到当前点击的那一项数据 -----通过id
+          //findIndex返回的是找到的元素的索引 
+          let index = this.books.findIndex(item=>item.id==k)
+          //如果我们遍历的那一项的id值等于传递过来的id值 就返回这个索引
+          // console.log(index); 这个是数组的索引
+          // console.log(k);  k 是固定，特定的id值
+          this.books.splice(index,1)
+        },
+
+        //修改操作
+        edit(k){
+          //点击修改操作后 就将id输入框设为禁用状态
+          this.flag = true
+          //获取到当前数据 并将数据渲染到表单里
+          this.books.some(item=>{
+            // item表示每一项数据 如果这个数据的id等于当前id 就将这项数据重新赋值给表单
+            if(item.id==k){
+              this.id = item.id
+              this.name = item.name
+            }
+          })
+
+        },
+        
+      },
+      //统计数量
+        computed: {
+          count(){
+            //必须要返回
+            return this.books.length
+          }
+        }
+    });
+  </script>
+</body>
+</html>

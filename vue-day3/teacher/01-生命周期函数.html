@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+    </div>
+    <script src="js/vue.js"></script>
+
+    <script>
+        
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'hello'
+            },
+            methods: {
+                showMsg(){
+                    console.log("OK")
+                }
+            },
+            // beforeCreate() {
+            //     // console.log("ok1")
+            //     // 访问data里面定义的msg属性 
+            //    console.log(this.msg)
+            //     // 想要调用 methods里面的定义的showMsg()方法 
+            //    this.showMsg(); 
+            // },
+            // created() {
+            //      // 访问data里面定义的msg属性 
+            //     console.log(this.msg)
+            //     // 想要调用 methods里面的定义的showMsg()方法 
+            //    this.showMsg(); 
+            // },
+            // beforeMount() {
+            //     // 如果打印的是hello 就表示vue已经将模板交给浏览器并且渲染出来  
+            //     // 如果打印的是 {{msg}} 就表示vue还没有将模板渲染到浏览器上面 
+            //     console.log(document.querySelector('h1').innerHTML)
+            // },
+
+            mounted() {
+                // 当这个生命周期钩子函数 触发的时候  表示 模板已经被渲染了 
+                // 如果我们需要对我们的模板进行DOM操作 最早只能 mounted
+                console.log(document.querySelector('h1').innerHTML)
+            },
+        });
+    
+    
+    </script>
+</body>
+</html>

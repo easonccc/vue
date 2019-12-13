@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <con1></con1>
+        <con2></con2>
+        <con></con>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //定义一个局部组件con1
+        let con1 = {
+            data() {
+                return {
+                    msg:'eason'
+                }
+            },
+            template:` <button>{{msg}}</button>`
+        }
+        //定义一个局部组件2
+        let con2 = {
+            data() {
+                return {
+                    msg:'eason2'
+                }
+            },
+            template:` <button>{{msg}}</button>`
+        }
+        //这两个组件只能在#app这个元素中使用
+
+
+        //定义一个全局组件 
+        Vue.component('con',{
+            template:`
+            <div>
+                    <button>con</button>
+            </div>`
+            //全局组件里面不能写局部组件 会报错：**组件没有被注册
+        })
+       let vu = new Vue({
+           el:'#app',
+           data:{},
+           components : {
+            con1,
+            con2
+           }
+       })
+    </script>
+</body>
+</html>

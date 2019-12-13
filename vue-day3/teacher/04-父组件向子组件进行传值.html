@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{pdata}}</div>
+        <!-- 子组件标签名 -->
+        <my-son :dmsg="pdata"></my-son>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 全局注册组件 
+        Vue.component('my-son',{
+            props:['dmsg'],
+            data(){
+                return {
+                    sdata:'这是子组件里面的数据'
+                }
+            },
+            template:`
+                <div>{{sdata}}---{{dmsg}}</div>
+            `
+        })
+
+        
+        const vm = new Vue({
+            el:'#app',
+            data: {
+                pdata:'这是根组件里面的数据'
+            }
+        })
+    
+    </script>
+</body>
+</html>

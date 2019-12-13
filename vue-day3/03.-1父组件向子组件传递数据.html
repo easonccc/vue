@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <div id="app">
+        
+        <com1></com1>
+        <con2></con2>
+        <!-- 传递数组里面 -->
+        <con title="12" :obj="obj" :arr="arr"></con>
+       
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //注册一个全局组件 
+        Vue.component('con',{
+            //访问父级组件 必须通过props
+            props:['title',"arr","obj"],
+            data() {
+                return {
+                    con : "全局组件内容"
+                }
+            },
+            template:  `
+                <div>
+                    <div>{{title}}</div>
+                    <div>{{arr}}</div>
+                    <div>{{obj}}</div>
+                    <div>{{typeof obj}}</div>
+                </div>
+            `,
+            //得到的数字类型是字符串型
+        })
+        //注册局部变量
+        let com1 = {
+            data() {
+                return {
+                    msg: "局部内容1"
+                }
+            },
+            template:`<button>{{msg}}</button>`
+        }
+
+        let con2 = {
+            data() {
+                return {
+                    msg:"局部内容2"
+                }
+            },
+            template:`<button>{{msg}}</button>`
+        }
+       let vu = new Vue({
+           el:'#app',
+           data:{
+               //传递数组
+               arr:['one','two','three'],
+               obj:{
+                   id: 1,
+                   name:'第一',
+                   xixi: "xixi"
+               }
+           },
+           components:{
+               com1,
+               con2
+           }
+       })
+    </script>
+</body>
+</html> 

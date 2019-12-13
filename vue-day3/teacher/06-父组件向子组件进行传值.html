@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 200px;
+            height: 100px;
+            padding:30px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <s-com v-bind:title="pmsg" content="静态数据"></s-com>
+    </div>
+    <script src="js/vue.js"></script>
+    <script>
+        // 全局组件  
+        Vue.component('s-com',{
+            // 组件里面所需要的数据  在定义的组件注意中 data必须是一个函数  需要返回一个对象
+            // 在子组件的模板内得到父组件身上的数据  属性绑定  绑定在父组件模板内 子组件名上   在子组件中 定义一个props这个属性 它的值是一个数组 
+            props:['title','content'],
+            data(){
+                return {
+                    smsg:'hello',
+                }
+            },
+            template:`
+               <div>{{title}}---{{content}}</div>
+            `
+        })
+
+        // 实例化一个vm实例 
+        const vm = new Vue({
+            el:'#app',
+            data:{
+                pmsg:'来自父组件的数据'
+            }
+        });
+    
+    </script>
+</body>
+</html>
