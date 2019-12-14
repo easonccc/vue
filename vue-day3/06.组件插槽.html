@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <com>
+            <div>哒哒</div>
+        </com>
+        <com></com>
+
+        <com2> <h1 slot="header">标题内容</h1>
+            <p slot="main">主要内容</p>
+            <p slot="main">主要内容22</p>
+            <p slot="footer">尾部</p>
+        </com2>
+        <hr>
+        <com3>
+            <template slot="header">
+                <h1>铁憨憨1</h1>
+                <h1>铁憨憨2</h1>
+                <h1>铁憨憨3</h1>
+            </template>
+            <template slot="main">
+                <h1>哈哈哈</h1>
+                <h1>哈哈哈</h1>
+                <h1>哈哈哈</h1>
+            </template>
+            <template slot="footer">
+                <h1>铁憨憨1</h1>
+                <h1>铁憨憨2</h1>
+                <h1>铁憨憨3</h1>
+            </template>
+
+        </com3>
+
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //组件插槽 基本用法
+        //定义一个全局组件
+        Vue.component('com',{
+            data() {
+                return {
+                    msg:'加油'
+                }
+            },
+            // slot 是固定写法
+            template: ` <div>
+                <div>{{msg}}</div>
+                <slot></slot>
+                <slot>默认内容：当父组件不写参数时显示 如果父组件在这里写了内容则会覆盖</slot>
+            </div>`
+        })
+
+        //组件插槽 具名插槽
+        Vue.component('com2',{
+            data() {
+                return {
+                    msg:'要开心'
+                }
+            },
+            template: `
+                <div>
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot name="main"></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>
+                    </footer>
+                
+                </div>
+
+            `
+        })
+    
+        //组件插槽 具名插槽
+        Vue.component('com3',{
+            data() {
+                return {
+                    msg: '铁憨憨'
+                }
+            },
+            template:`
+            <div>
+                    <header>
+                        <slot name="header"></slot>
+                    </header>
+                    <main>
+                        <slot name="main"></slot>
+                    </main>
+                    <footer>
+                        <slot name="footer"></slot>
+                    </footer>
+                
+                </div>
+            `
+        })
+
+
+       let vu = new Vue({
+           el:'#app',
+           data:{}
+       })
+    </script>
+</body>
+</html> 

@@ -125,7 +125,7 @@
         //添加数据操作
         add(){
           //先判断 如果表单有一项值为空就提示
-          if(this.id=="" && this.name==""){
+          if(this.id=="" || this.name==""){
             alert('请输入内容')
             return false
           }

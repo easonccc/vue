@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    .grid {
+      margin: auto;
+      width: 530px;
+      text-align: center;
+    }
+    .grid table {
+      border-top: 1px solid #C2D89A;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .grid th,td {
+      padding: 10;
+      border: 1px dashed #F3DCAB;
+      height: 35px;
+      line-height: 35px;
+    }
+    .grid th {
+      background-color: #F3DCAB;
+    }
+    .grid .book {
+      padding-bottom: 10px;
+      padding-top: 5px;
+      background-color: #F3DCAB;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="grid">
+      <div>
+        <h1>图书管理</h1>
+        <div class="book">
+          <div>
+            <label for="id">
+              编号：
+            </label>
+            <input type="text" id="id" v-model="id" :disabled="flag">
+            <label for="name">
+              名称：
+            </label>
+            <input type="text" id="name" v-model="name">
+            <button @click="add" >提交</button>
+          </div>
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in books" :key="item.id" >
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.date |formatDate}}</td>
+            <td>
+              <a href="javascript:;" @click="edit(item.id)">修改</a>
+              <span>|</span>
+              <a href="javascript:;" @click="del(item.id)">删除</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>{{count}}</div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+  //定义一个全局过滤器
+   //定义全局过滤器处理时间格式
+   Vue.filter('formatDate',function(val){
+        //val是要处理的日期
+        let year = val.getFullYear()
+        //转换为字符串再进行二位数补零操作
+        let m = (val.getMonth()+1).toString().padStart(2,0)
+        let day = (val.getDate()).toString().padStart(2,0)
+        let hour = (val.getHours()).toString().padStart(2,0)
+        let min = (val.getMinutes()).toString().padStart(2,0)
+        let s = (val.getSeconds()).toString().padStart(2,0)
+        return  year+"-"+ m + "-"+day+" "+hour+":"+min+":"+s
+      })
+    /*
+      图书管理-添加图书
+    */
+    var vm = new Vue({
+      el: '#app',
+      data: {
+          flag : false,
+        id: '',
+        name: '',
+        books: [{
+          id: 1,
+          name: '三国演义',
+          date: new Date()
+        },{
+          id: 2,
+          name: '水浒传',
+          date: new Date()
+        },{
+          id: 3,
+          name: '红楼梦',
+          date: new Date()
+        },{
+          id: 4,
+          name: '西游记',
+          date: new Date()
+        }]
+      },
+      methods: {
+        //删除操作
+        del(key){
+            //通过查找当前索引号 删除数组中的那一项
+            let index = this.books.findIndex(el=>el.id==key)
+            this.books.splice(index,1)
+        },
+        //提交按钮
+        add(){
+            //非空操作
+            if(this.id==""||this.name==""){
+                alert('请输入内容')
+                return false
+            }
+
+            //根据flag的状态判断是修改还是添加操作
+            if(this.flag){
+                //如果是修改操作 id值是固定的
+                this.books.some(item=>{
+                    if(this.id==item.id){
+                        item.name=this.name
+                    }
+                    return true
+                })
+                //重新将禁用状态关闭
+                this.flag=false
+            }else{
+                 //增加操作
+            let obj ={
+                id:this.id,
+                name:this.name,
+                date:new Date()
+            }
+            this.books.push(obj)
+            }
+            
+            //清空表单
+            this.id=this.name=""
+
+        },
+        //修改操作
+        edit(key){
+            //点击后将该条数据显示在表单里 并将id输入框改为禁用状态
+            //过滤出选中的那一项 返回的是新数组
+            let newarr = this.books.filter(item=>item.id==key)
+            console.log(newarr);
+            this.id=newarr[0].id
+            this.name=newarr[0].name
+            this.flag=true
+        }
+      },
+      //计算属性 可以提高效率 当计算一样的内容的时候不需要重新计算 可以节省内存
+      computed: {
+          count : function() {
+              return this.books.length
+          }
+      },
+    });
+  </script>
+</body>
+</html>

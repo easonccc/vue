@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div>{{content}}</div>
+        <button @click="handle">销毁</button>
+        <eason></eason>
+        <joy></joy>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        //提供事件中心
+        var hub = new Vue()
+
+        //兄弟组件一
+        Vue.component('eason',{
+            data() {
+                return {
+                    msg:'陈奕迅',
+                    num: 0
+                }
+            },
+            template:`<div>{{num}}<br/> <button @click="handle">{{msg}}</button></div>`,
+            methods: {
+                handle(){
+                    //触发兄弟组件的事件 通过$emit调用 调用的是兄弟组件的事件
+                    hub.$emit('joy-event',10)
+                }
+            },
+            //监听事件
+            mounted() {
+                //val 是对方传递过来的信息
+                hub.$on('eason-event',(val)=>{
+                    this.num += val
+                })
+            },
+        })
+
+        //定义兄弟组件
+        Vue.component('joy',{
+            data() {
+                return {
+                    msg:'周杰伦',
+                    num : 0
+                }
+            },
+            template:`<div>{{num}}<br/> <button @click="handle">{{msg}}</button></div>`,
+            methods: {
+                handle(){
+                     //触发兄弟组件的事件 通过$emit调用 调用的是兄弟组件的事件
+                     hub.$emit('eason-event',7)
+                }
+            },
+            //监听事件
+            mounted() {
+                //val 是对方传递过来的信息
+                hub.$on('joy-event',(val)=>{
+                    this.num += val
+                })
+            },
+        })
+
+       let vu = new Vue({
+           el:'#app',
+           data:{
+               content:'父组件'
+           },
+           methods: {
+               handle(){
+                   hub.$off('eason-event')
+                   hub.$off('joy-event')
+               }
+           },
+       })
+    </script>
+</body>
+</html> 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>{{msg}}</div>
+      <hr />
+      <com :zijidingyi="msg"></com>
+      <hr />
+      <!-- 调用的是局部组件里面的组件命名“键” -->
+      <comp1></comp1>
+      <comp2></comp2>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+      //定义一个全局组件
+      Vue.component("com", {
+        props: ["zijidingyi"],
+        data() {
+          return {
+            content: "全局组件（子组件）"
+          };
+        },
+        template: `
+                <div>{{content}}
+                    {{zijidingyi}}
+                    </div>
+            `
+      });
+
+      //定义局部组件
+      let com1 = {
+        data() {
+          return {
+            content1: "局部组件1"
+          };
+        },
+        template: `<div>{{content1}}</div>`
+      };
+      let vu = new Vue({
+        el: "#app",
+        data: {
+          msg: "fuzujianneir"
+        },
+        //注意格式 一个对象
+        components: {
+          comp1: com1,
+          comp2: {
+            data() {
+              return {
+                content2: "局部组件2"
+              };
+            },
+            template: `<div>{{content2}}</div>`
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
