@@ -16,7 +16,7 @@
         }
         fn() */
 
-       async function fn1(){
+      /*  async function fn1(){
            //解构赋值 将data赋值给res
             const { data : res} = await axios.get('http://localhost:3000/axios',{
                 params:{
@@ -25,7 +25,26 @@
             })
             console.log(res);
         }
-        fn1()
+        fn1() */
+
+        /* async function fn1(){
+            const {data:res} = await axios.post('http://localhost:3000/axios',{
+                uname: '宝宝',
+                pwd:123
+            });
+            console.log(res);
+        }
+        fn1() */
+
+        async function fn(){
+				const {data:res} = await axios.post('http://localhost:3000/axios',{
+						uname:'张三',
+						pwd:123456
+				});
+				console.log(res);
+			}
+			fn();
+
     </script>
 </body>
 </html>
