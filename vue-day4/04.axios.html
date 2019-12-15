@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="../js/axios.js"></script>
+    <script>
+      /*   async function fn(){
+          const res = await axios.get('http://localhost:3000/adata')
+          console.log(res.data);
+          
+        }
+        fn() */
+
+       async function fn1(){
+           //解构赋值 将data赋值给res
+            const { data : res} = await axios.get('http://localhost:3000/axios',{
+                params:{
+                    id: 777
+                }
+            })
+            console.log(res);
+        }
+        fn1()
+    </script>
+</body>
+</html>

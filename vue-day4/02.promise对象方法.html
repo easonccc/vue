@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+     <script>
+        function queryData(url){
+            return new Promise(function(resolve,reject){
+                 //发送服务器请求
+         let xhr = new XMLHttpRequest()
+         xhr.open('get',url)
+         xhr.send()
+         xhr.onreadystatechange=function(){
+             if(xhr.readyState!=4) return
+             if(xhr.status==200&&xhr.readyState==4){
+              //处理正常的情况
+              resolve(xhr.responseText)  
+             }else{
+                 reject('服务器错误')
+             }
+         }
+            })
+        }
+
+        let p1 = queryData('http://localhost:3000/a1')
+        let p2 = queryData('http://localhost:3000/a2')
+        let p3 = queryData('http://localhost:3000/a3')
+        //等所有的任务执行完之后一起返回 返回的是一个数组 顺序和传入的promise对象的顺序是一一对应的
+      /*   Promise.all([p1,p2,p3]).then(res=>console.log(res)
+        ) */
+
+        //输出最快返回的那一项  另外的结果也请求到了 但是不显示
+        Promise.race([p1,p2,p3]).then(res=>console.log(res)
+        )
+     </script>
+</body>
+</html>
