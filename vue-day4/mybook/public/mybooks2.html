@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style type="text/css">
+      .grid {
+        margin: auto;
+        width: 530px;
+        text-align: center;
+      }
+      .grid table {
+        border-top: 1px solid #c2d89a;
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .grid th,
+      td {
+        padding: 10;
+        border: 1px dashed #f3dcab;
+        height: 35px;
+        line-height: 35px;
+      }
+      .grid th {
+        background-color: #f3dcab;
+      }
+      .grid .book {
+        padding-bottom: 10px;
+        padding-top: 5px;
+        background-color: #f3dcab;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="grid">
+        <div>
+          <h1>图书管理</h1>
+          <div class="book">
+            <div>
+              <label for="id">
+                编号：
+              </label>
+              <input type="text" id="id" v-model="id" :disabled="flag" />
+              <label for="name">
+                名称：
+              </label>
+              <input type="text" id="name" v-model="name" />
+              <button @click="add">提交</button>
+            </div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>编号</th>
+              <th>名称</th>
+              <th>时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- 循环将数据渲染至页面 -->
+            <tr v-for="(item, index) in books" :key="item.id">
+              <td>{{index+1}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.date | formData}}</td>
+              <td>
+                <a href="javascript:;" @click.prevent="edit(item.id)">修改</a>
+                <span>|</span>
+                <a href="javascript:;" @click.prevent="del(item.id)">删除</a>
+                <!-- 这里必须要传递参数 才能获取到当前点击项 -->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    <div>{{count}}</div>
+      </div>
+      <!-- 计算数量 -->
+      <div></div>
+    </div>
+    <script type="text/javascript" src="../../../js/vue.js"></script>
+    <script src="../../../js/axios.js"></script>
+    <script type="text/javascript">
+      //  配置默认地址
+      axios.default.baseURL = "http://localhost:3000/books";
+
+      //这个过滤器必须写在vue实例的前面否则访问不到
+      //定义全局过滤器处理时间格式
+     Vue.filter('formData',function(date){
+         let newDate = new Date(date)
+         let year = newDate.getFullYear()
+         let month = (newDate.getMonth()+1).toString().padStart(2,0)
+         let day = (newDate.getDate()).toString().padStart(2,0)
+         let h = (newDate.getHours()).toString().padStart(2,0)
+         let min = (newDate.getMinutes()).toString().padStart(2,0)
+         let s = (newDate.getSeconds()).toString().padStart(2,0)
+         return `${year}-${month}-${day} ${h}:${min}:${s}`
+     })
+      /*
+      图书管理-添加图书
+    */
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          id: "",
+          name: "",
+          flag: false,
+          books: []
+        },
+        methods: {
+            //获取列表数据
+           async getBooks(){
+                const {data:res} = await axios.get('books')
+                console.log(res);
+                //将拿到的数据给列表
+                this.books=res
+            },
+            //删除操作
+            async del(id){
+                //再次确认
+                if(confirm('确认删除吗')){
+                    const {data:res} = await axios.delete('books/'+id)
+                    console.log(res);
+                    if(res.status==200){
+                        this.getBooks()
+                    }
+                }
+            },
+            //修改操作
+           async edit(id){
+                //查找到修改的这条数据
+                const {data:res} = await axios.get('books/'+id)
+                console.log(res);
+                //将查到的值赋值给表单
+                this.id = res.id
+                this.name = res.name
+                //将id表单设为禁用状态
+                this.flag = true
+                
+            },
+            //添加操作
+           async add(){
+                //非空判断
+                if(this.name==""||this.id==""){
+                    alert('请输入内容')
+                    return false
+                }
+               //根据id表单的状态决定是添加还是修改操作
+               if(this.flag){
+                    //修改操作 id值不变
+                    const {data:res} = await axios.put('books/'+this.id,{
+                        name:this.name
+                    })
+                    console.log(res);
+                    if(res.status==200){
+                        this.getBooks()
+                    }
+                    this.flag=false
+               }else{
+                const {data:res} = await axios.post('books',{
+                    name:this.name,
+                    id:this.id
+                })
+                //如果成功就重新渲染页面
+                if(res.status==200){
+                    this.getBooks()
+                }
+               }
+
+                //清空操作
+                this.name=this.id=""
+                
+            }
+        },
+        created() {
+            //最早可以得到数据的时候
+            this.getBooks()
+        },
+        //计算总数
+        computed: {
+            count (){
+                return this.books.length
+            }
+        },
+      })
+       
+    </script>
+  </body>
+</html>

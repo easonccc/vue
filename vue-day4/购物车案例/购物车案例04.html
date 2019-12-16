@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    .container {
+    }
+    .container .cart {
+      width: 300px;
+      /*background-color: lightgreen;*/
+      margin: auto;
+    }
+    .container .title {
+      background-color: lightblue;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      /*color: #fff;*/  
+    }
+    .container .total {
+      background-color: #FFCE46;
+      height: 50px;
+      line-height: 50px;
+      text-align: right;
+    }
+    .container .total button {
+      margin: 0 10px;
+      background-color: #DC4C40;
+      height: 35px;
+      width: 80px;
+      border: 0;
+    }
+    .container .total span {
+      color: red;
+      font-weight: bold;
+    }
+    .container .item {
+      height: 55px;
+      line-height: 55px;
+      position: relative;
+      border-top: 1px solid #ADD8E6;
+    }
+    .container .item img {
+      width: 45px;
+      height: 45px;
+      margin: 5px;
+    }
+    .container .item .name {
+      position: absolute;
+      width: 90px;
+      top: 0;left: 55px;
+      font-size: 16px;
+    }
+
+    .container .item .change {
+      width: 100px;
+      position: absolute;
+      top: 0;
+      right: 50px;
+    }
+    .container .item .change a {
+      font-size: 20px;
+      width: 30px;
+      text-decoration:none;
+      background-color: lightgray;
+      vertical-align: middle;
+    }
+    .container .item .change .num {
+      width: 40px;
+      height: 25px;
+    }
+    .container .item .del {
+      position: absolute;
+      top: 0;
+      right: 0px;
+      width: 40px;
+      text-align: center;
+      font-size: 40px;
+      cursor: pointer;
+      color: red;
+    }
+    .container .item .del:hover {
+      background-color: orange;
+    }
+    .dis {
+        cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+     
+     <car></car>
+       
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../../js/vue.js"></script>
+  <script type="text/javascript">
+    //局部组件
+    let one = {
+        props:['unames'],
+        template:` 
+        <div class="title">{{unames}}商品</div>`
+    }
+
+    let two = {
+        props:['list'],
+        template:`   
+        <div>
+          <div class="item" v-for="v in list" :key="v.id">
+            <img :src="v.img"/>
+            <div class="name">{{v.name}}</div>
+            <div class="change">
+              <a href="" @click.prevent="$emit('change',{id:v.id,type:'sub',val:v.num})" :class="v.num<=1?'dis':''">－</a>
+              <input type="text" class="num" :value="v.num" @blur="$emit('change',{id:v.id,type:'change',val: $event.target.value})"/>
+              <a href=""  @click.prevent="$emit('change',{id:v.id,type:'add',val:v.num})">＋</a>
+            </div>
+            <div class="del" @click="$emit('del',v.id)">×</div>
+          </div>
+        </div>`
+    }
+
+    let three = {
+        props:['list'],
+        template:`
+        <div class="total">
+          <span>总价：{{count}}</span>
+          <button>结算</button>
+        </div>
+        `,
+        //计算总价
+        computed: {
+            count(){
+                let count = 0
+                this.list.forEach(item=>{
+                    count+= item.price*item.num
+                })
+                return count
+          }
+        },
+    }
+
+    Vue.component('car',{
+        data() {
+            return {
+                uname:'第四个憨憨',
+                list:  [{
+                 id: 1,
+                 name: 'TCL彩电',
+                 price: 1000,
+                 num: 1,
+                 img: './img/a.jpg'
+               },{
+                 id: 2,
+                 name: '机顶盒',
+                 price: 1000,
+                 num: 1,
+                 img: 'img/b.jpg'
+               },{
+                 id: 3,
+                 name: '海尔冰箱',
+                 price: 1000,
+                 num: 1,
+                 img: 'img/c.jpg'
+               },{
+                 id: 4,
+                 name: '小米手机',
+                 price: 1000,
+                 num: 1,
+                 img: 'img/d.jpg'
+               },{
+                 id: 5,
+                 name: 'PPTV电视',
+                 price: 1000,
+                 num: 2,
+                 img: 'img/e.jpg'
+               }]
+            }
+        },
+        template:`<div class="cart">
+                <one :unames="uname"></one>
+                <two :list="list" @del="del($event)" @change="change($event)"></two>
+                <three :list="list"></three>
+            </div>`,
+            components: {
+                "one":one,
+                "two":two,
+                "three":three
+            },
+            methods: {
+                del(id){
+                    console.log(id);
+                let index = this.list.findIndex(v=>v.id==id)
+                this.list.splice(index,1)
+                    
+                },
+                change(e){
+                   if(e.type=="change"){
+                        //将表单的值赋给数据
+                    // console.log(e);
+                    this.list.some(v=>{
+                        if(v.id==e.id){
+                            //将更改的值替换到数据的那一项
+                            v.num = e.val
+                            return true 
+                        }
+                    })
+                   }else if(e.type =="sub"){
+                       console.log(e);
+                       if(e.val<=1) return
+                       this.list.some(v=>{
+                           if(v.id==e.id){
+                                v.num--
+                               return true
+                           }
+                       })
+                   }else if(e.type=="add"){
+                       this.list.some(v=>{
+                           if(v.id==e.id){
+                               v.num++
+                               return true
+                           }
+                       })
+                   }
+
+                }
+            },
+
+    })
+
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        
+      }
+    });
+
+  </script>
+</body>
+</html>

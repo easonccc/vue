@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/one/1">one1</router-link>
+        <router-link to="/one/2">two2</router-link>
+        <router-link to="/one/3">three3</router-link>
+
+        <router-view></router-view>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router_3.0.2.js"></script>
+    <script>
+        let One = {
+            template:`<h1>one---{{$route.params.id}}</h1>`
+        }
+
+        let Two = {
+            template:`<h2>two</h2>`
+        }
+
+        let router = new VueRouter({
+            routes: [
+                {path:'/',redirect: '/one/1'},
+                {path:'/one/:id',component:One},
+                {path:'/two',component:Two}
+            ]
+        })
+
+       let vu = new Vue({
+           el:'#app', 
+           data:{},
+           router
+       })
+    </script>
+</body>
+</html> 

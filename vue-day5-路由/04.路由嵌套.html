@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/one">one</router-link>
+        <router-link to="/two">two</router-link>
+      
+
+        <router-view></router-view>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router_3.0.2.js"></script>
+    <script>
+        let One = {
+            template:`<h1>第一</h1>`
+        }
+
+        let Two = {
+            template:`<div>
+                <h2>第二</h2>
+                <hr>
+                
+
+                <router-link to="/two/haha">哈哈</router-link>
+                 <router-link to="/two/xixi">嘻嘻</router-link>
+
+                 <router-view></router-view>                 
+                </div>`
+        }
+
+
+           //定义子组件
+           let xixi = {
+            template:`<p>嘻嘻</p>`
+        }
+        let haha = {
+            template:`<p>哈哈</p>`
+        }
+        let router = new VueRouter({
+            routes: [
+                {path:'/',redirect: '/one'},
+                {path:'/one',component:One},
+                //children 数组表示子路由规则 
+                {path:'/two',component:Two,children:[
+                {path:'/two/xixi',component:xixi},
+                {path:'/two/haha',component:haha}
+                ]}
+            ]
+        })
+
+     
+
+       let vu = new Vue({
+           el:'#app', 
+           data:{},
+           router
+       })
+    </script>
+</body>
+</html> 

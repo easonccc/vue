@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue_2.5.22.js"></script>
+    <script src="../js/vue-router_3.0.2.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--  2.添加路由链接 -->
+        <router-link to="/path">path</router-link>
+        <router-link to="/one">one</router-link>
+        <router-link to="/two">two</router-link>
+
+        <!-- 3.占位符 -->
+        <router-view></router-view>
+    </div>
+  
+    <script>
+        //4.创建路由组件
+        let path = {
+            template:`<h1>path</h1>`
+        }
+        let one = {
+            template:`<h1>one</h1>`
+        }
+        let two = {
+            template:`<h1>two</h1>`
+        }
+       //5.创建路由对象 
+       let oneRouter = new VueRouter({
+           //所有的路由规则
+           routes:[
+            {path:'/path',component:path},
+            {path:'/one',component:one},
+            {path:'/two',component:two}
+           ]
+       }) 
+
+       let vu = new Vue({
+           el:'#app',
+           data:{},
+           //6.挂载路由实例对象
+           router: oneRouter
+       })
+
+    </script>
+</body>
+</html> 

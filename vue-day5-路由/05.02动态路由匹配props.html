@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/one/1">one1</router-link>
+        <router-link to="/one/2">two2</router-link>
+        <router-link to="/one/3">three3</router-link>
+
+        <router-view></router-view>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script src="../js/vue-router_3.0.2.js"></script>
+    <script>
+        let One = {
+            //用props接收
+            props:['uname','age','id'],
+            template:`<h1>one-{{id}} --用户为{{uname}} 年龄为{{age}}</h1>`
+        }
+
+        let Two = {
+            template:`<h2>two</h2>`
+        }
+
+        let router = new VueRouter({
+            routes: [
+                {path:'/',redirect: '/one/1'},
+                //开启props传参
+                // {path:'/one/:id',component:One,props:true},
+                //如果指定的是对象类型 访问不到id
+                // {path:'/one/:id',component:One,props:{uname:'lisi',age:18}},
+                //如果指定的是函数类型 函数的形参就是这个route对象
+                {path:'/one/:id',component:One,props:route=>({
+                    uname:'lll', age:18, id: route.params.id
+                })},
+
+                {path:'/two',component:Two}
+            ]
+        })
+
+       let vu = new Vue({
+           el:'#app', 
+           data:{},
+           router
+       })
+    </script>
+</body>
+</html>  

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <a href="#/one">要加油</a>
+        <a href="#/two">two</a>
+        <a href="#/three">three</a>
+        <a href="#/four">four</a>
+
+
+        <!-- 一个组件占位符 -->
+        <component :is="className"></component>
+    </div>
+    <script>
+        //定义四个组件
+        let yi = {
+            template:`<h1>第一个</h1>`
+        }
+
+        let er = {
+            template:`<h1>第二个</h1>`
+        }
+
+        let san = {
+            template:`<h1>第三个</h1>`
+        }
+
+        let si = {
+            template:`<h1>第四个</h1>`
+        }
+
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                className:yi
+            },
+            components: {
+                yi,er,san,si
+            }
+        })
+        //通过监听window中的onhashchange事件 得到最新的hash值 切换想要显示的组件名称
+        window.onhashchange= function(){
+            //通过location.hash 获取到最新的hash值
+             console.log(location.hash);
+             //截取斜线后面的内容
+             switch(location.hash.slice(2)){
+                 case 'one' :
+                     vm.className="yi"
+                     break
+                case 'two':
+                    vm.className="er"
+                    break
+                case 'three':
+                    vm.className='san'
+                    break
+                case 'four' :
+                    vm.className="si"
+                    break
+             }
+        }
+    
+    </script>
+</body>
+</html>
