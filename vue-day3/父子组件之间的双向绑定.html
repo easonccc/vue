@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{msg}}</h1>
+        <my-con :title="msg" @seng-value="getValue($event)"></my-con>
+    </div>
+    <script src="../js/vue_2.5.22.js"></script>
+    <script>
+        // 创建全局组件  父组件向组件进行传值  我们不要去通过子组件直接去改变父组件里面的内容 
+        // 当我们在Input标签里面输入内容以后 将它的值 赋值给父组件的 msg属性 就可以了  我们还可以用v-model 
+        // 核心：拿到input输入的值  将它赋值给父组件的 msg属性：
+        // 组件 父向子传值  子向父传值  v-model的底层原理 
+        Vue.component('my-con',{
+            props:['title'],
+            template:`
+                <input type="text" :value="title" @input="handel">
+            `,
+            methods: {
+                handel(e){
+                    // console.log(e.target.value) 子组件向父组件传值  $emit()
+                    this.$emit('seng-value',e.target.value);
+                }
+            },
+        });
+
+        const app = new Vue({
+            data: {
+                msg:'hello'
+            },
+            el:'#app',
+            methods: {
+                getValue(val) {
+                    this.msg = val
+                }
+            }
+            
+        })
+    
+    
+    </script>
+</body>
+</html>

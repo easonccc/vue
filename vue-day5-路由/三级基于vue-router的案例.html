@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>基于vue-router的案例</title>
+    <style type="text/css">
+      html,
+      body,
+      #app {
+        margin: 0;
+        padding: 0px;
+        height: 100%;
+      }
+      .header {
+        height: 50px;
+        background-color: #545c64;
+        line-height: 50px;
+        text-align: center;
+        font-size: 24px;
+        color: #fff;
+      }
+      .footer {
+        height: 40px;
+        line-height: 40px;
+        background-color: #888;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        color: #fff;
+      }
+      .main {
+        display: flex;
+        position: absolute;
+        top: 50px;
+        bottom: 40px;
+        width: 100%;
+      }
+      .content {
+        flex: 1;
+        text-align: center;
+        height: 100%;
+      }
+      .left {
+        flex: 0 0 20%;
+        background-color: #545c64;
+      }
+      .left a {
+        color: white;
+        text-decoration: none;
+      }
+      .right {
+        margin: 5px;
+      }
+      .btns {
+        width: 100%;
+        height: 35px;
+        line-height: 35px;
+        background-color: #f5f5f5;
+        text-align: left;
+        padding-left: 10px;
+        box-sizing: border-box;
+      }
+      button {
+        height: 30px;
+        background-color: #ecf5ff;
+        border: 1px solid lightskyblue;
+        font-size: 12px;
+        padding: 0 20px;
+      }
+      .main-content {
+        margin-top: 10px;
+      }
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      ul li {
+        height: 45px;
+        line-height: 45px;
+        background-color: #a0a0a0;
+        color: #fff;
+        cursor: pointer;
+        border-bottom: 1px solid #fff;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      td,
+      th {
+        border: 1px solid #eee;
+        line-height: 35px;
+        font-size: 12px;
+      }
+
+      th {
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+    <router-view></router-view>
+    </div>
+    <script src="../js/vue_2.5.22.js"></script>
+    <script src="../js/vue-router_3.0.2.js"></script>
+    <script>
+      let aHead = {
+        template:` <!-- 头部区域 -->
+      <header class="header">传智后台管理系统</header>`
+      }
+
+      let aMain = {
+        template:`
+        <!-- 中间主体区域 -->
+      <div class="main">
+        <!-- 左侧菜单栏 -->
+        <div class="content left">
+          <ul>
+           <li><router-link to="/app/user">用户管理</router-link></li>
+           <li><router-link to="/app/quanxian">权限管理</router-link></li>
+           <li><router-link to="/app/goods">商品管理</router-link></li>
+           <li><router-link to="/app/dingdan">订单管理</router-link></li>
+           <li><router-link to="/app/setings">系统设置</router-link></li>
+          </ul>
+        </div>
+        <!-- 右侧内容区域 -->
+        <div class="content right"><div class="main-content"><router-view /></div></div>
+      </div>
+        `
+      }
+
+      let aFoot = {
+        template:` <!-- 尾部区域 -->
+      <footer class="footer">版权信息</footer>`
+      }
+
+      let user = {
+        data() {
+          return {
+            list :[
+              {id:1,name:'eason',age:7},
+              {id:2,name:'aa',age:12},
+              {id:3,name:'bb',age:9},
+              {id:4,name:'eaccson',age:60},
+              {id:5,name:'dd',age:162},
+              
+            ]
+          }
+        },
+        template:`
+        <div>
+        <h3>用户管理区域</h3>
+        <table>
+          <thead>
+            <tr><th>编号</th><th>姓名</th><th>年龄</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in list" :key="item.id">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.age}}</td>
+              <td>
+                <a href="javascript:;" @click="goDetail(item.id)">详情</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+        `,
+        methods: {
+          goDetail(id){
+            this.$router.push('/app/detail/'+id)
+          }
+        },
+      }
+
+      //定义详情页
+      let detail ={
+        template:`
+          <div>
+            <h1>详情页</h1>
+            <p>用户id为{{this.$route.params.id}}</p>
+            <button @click="goBack">后退</button>
+            </div>
+        `,
+        methods: {
+          goBack(){
+            this.$router.go(-1)
+          }
+        },
+      }
+
+
+      let quanxian = {
+        template:`<h2>用户权限内容</h2>`
+      }
+      let goods = {
+        template:`<h2>goods内容</h2>`
+      }
+      let dingdan = {
+        template:`<h2>dingdan内容</h2>`
+      }
+      let setings = {
+        template:`<h2>setings内容</h2>`
+      }
+
+      //根组件
+      let app = {
+        template:`
+          <div>
+            <a-head></a-head>
+            <a-main></a-main>
+            <a-foot></a-foot>  
+          </div>
+        `,
+        components: {
+          'a-head':aHead,
+          'a-main':aMain,
+          'a-foot':aFoot
+        }
+
+      }
+
+        // 二级组件
+        const myRouter=new VueRouter({
+          routes: [
+            // 定义根组件的hash地址为/app
+            {path:'/app',component:app,
+            children:[
+              {path:'user',component:user},
+              {path:'quanxian',component:quanxian},
+              {path:'goods',component:goods},
+              {path:'dingdan',component:dingdan},
+              {path:'setings',component:setings},
+              {path:'detail/:id',component:detail}
+            ]},
+            {path:'/',redirect: '/app/user'}
+          ]
+        })
+
+        // 一级根组件
+      const vm = new Vue({
+        el:'#app',
+        data:{},
+        router: myRouter
+      })
+    </script>
+  </body>
+</html>
